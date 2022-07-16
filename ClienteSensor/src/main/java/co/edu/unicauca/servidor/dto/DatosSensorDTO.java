@@ -4,16 +4,19 @@ import java.io.Serializable;
 
 public class DatosSensorDTO implements Serializable {
     private int frecuenciaCardiaca;
-    private int tensionArterial;
+    private int presionSistolica;
+    private int presionDiastolica;
     private int frecuenciaRespiratoria;
     private double temperatura;
     private int oxigeno;
 
     public DatosSensorDTO() { }
-    public DatosSensorDTO(int frecuenciaCardiaca, int tensionArterial, int frecuenciaRespiratoria,
-            double temperatura, int oxigeno) {
+
+    public DatosSensorDTO(int frecuenciaCardiaca, int presionSistolica, int presionDiastolica,
+            int frecuenciaRespiratoria, double temperatura, int oxigeno) {
         this.frecuenciaCardiaca = frecuenciaCardiaca;
-        this.tensionArterial = tensionArterial;
+        this.presionSistolica = presionSistolica;
+        this.presionDiastolica = presionDiastolica;
         this.frecuenciaRespiratoria = frecuenciaRespiratoria;
         this.temperatura = temperatura;
         this.oxigeno = oxigeno;
@@ -27,14 +30,18 @@ public class DatosSensorDTO implements Serializable {
         this.frecuenciaCardiaca = frecuenciaCardiaca;
     }
 
-    public int getTensionArterial() {
-        return tensionArterial;
+    public int getPresionSistolica() {
+        return presionSistolica;
     }
-
-    public void setTensionArterial(int tensionArterial) {
-        this.tensionArterial = tensionArterial;
+    public void setPresionSistolica(int presionSistolica) {
+        this.presionSistolica = presionSistolica;
     }
-
+    public int getPresionDiastolica() {
+        return presionDiastolica;
+    }
+    public void setPresionDiastolica(int presionDiastolica) {
+        this.presionDiastolica = presionDiastolica;
+    }
     public int getFrecuenciaRespiratoria() {
         return frecuenciaRespiratoria;
     }
@@ -62,7 +69,7 @@ public class DatosSensorDTO implements Serializable {
     @Override
     public String toString() {
         return "DatosSensorDTO [frecuenciaCardiaca=" + frecuenciaCardiaca + ", frecuenciaRespiratoria="
-                + frecuenciaRespiratoria + ", oxigeno=" + oxigeno + ", temperatura=" + temperatura
-                + ", tensionArterial=" + tensionArterial + "]";
+                + frecuenciaRespiratoria + ", oxigeno=" + oxigeno + ", presionDiastolica=" + presionDiastolica
+                + ", presionSistolica=" + presionSistolica + ", temperatura=" + temperatura + "]";
     }
 }

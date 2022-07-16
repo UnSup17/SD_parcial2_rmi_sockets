@@ -47,8 +47,10 @@ public class ClienteDeObjetos {
         datos.setOxigeno(UtilidadesConsola.leerEntero());
         System.out.println("Temperatura:");
         datos.setTemperatura(UtilidadesConsola.leerDouble());
-        System.out.println("Tension arterial:");
-        datos.setTensionArterial(UtilidadesConsola.leerEntero());
+        System.out.println("Presion diastolica:");
+        datos.setPresionDiastolica(UtilidadesConsola.leerEntero());
+        System.out.println("Presion sistolica:");
+        datos.setPresionSistolica(UtilidadesConsola.leerEntero());
         return datos;
     }
 }

@@ -2,10 +2,14 @@ package co.edu.unicauca.servidor.controladores;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 
 import co.edu.unicauca.servidor.dto.DatosSensorDTO;
+import co.edu.unicauca.servidor.modelo.ReporteMensaje;
+import co.edu.unicauca.servidor.servicios.Conexion_cliente_servidor;
 
 public class GestionSensoresImpl extends UnicastRemoteObject implements GestionSensoresInt {
     private Map<Integer, DatosSensorDTO> datosHabitaciones;
@@ -35,6 +39,14 @@ public class GestionSensoresImpl extends UnicastRemoteObject implements GestionS
         return false;
     }
     private boolean valoresDentroDeRango(DatosSensorDTO datos) {
+        if (datos.getFrecuenciaCardiaca() <= 0 ||
+                datos.getFrecuenciaRespiratoria() <= 0 ||
+                datos.getPresionSistolica() <= 0 ||
+                datos.getPresionDiastolica() <= 0 ||
+                datos.getTemperatura() <= 0 ||
+                datos.getOxigeno() <= 0) {
+            enviarServidorLog(datos);
+        }
         if (datos.getFrecuenciaCardiaca() < 60 || datos.getFrecuenciaCardiaca() > 80 ||
             datos.getFrecuenciaRespiratoria() < 12 || datos.getFrecuenciaRespiratoria() > 20 ||
             datos.getPresionSistolica() < 110 || datos.getPresionSistolica() > 140 ||
@@ -44,5 +56,25 @@ public class GestionSensoresImpl extends UnicastRemoteObject implements GestionS
                 return false;
         }
         return true;
+    }
+    private void enviarServidorLog(DatosSensorDTO datos) {
+        Conexion_cliente_servidor cliente = new Conexion_cliente_servidor();
+        int puerto = 5000;
+        String dirIP = "localhost";
+
+        System.out.println("Conectando con el servidor");
+        System.out.println("Direccion ip " + dirIP);
+        System.out.println("Puerto: " + puerto);
+
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+        ReporteMensaje reporte = new ReporteMensaje(datos, dtf.format(LocalDateTime.now()));
+
+        try {
+            cliente.ServerConnection(dirIP, puerto);
+            cliente.enviar_mensaje(reporte);
+
+        } catch (Exception e) {
+            System.out.println("\nError: " + e.getMessage());
+        }
     }
 }
